@@ -30,10 +30,8 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private static final int REQUEST_PERMISSIONS = 100;
-    private static final String[] SECURITY_LABELS = {
-            "WPA/WPA2", "Open", "WPA3 (Android 10+)"
-    };
 
+    private String[] securityLabels;
     private EditText ssidInput;
     private EditText passwordInput;
     private Spinner securitySpinner;
@@ -62,8 +60,9 @@ public class MainActivity extends Activity {
         logText = findViewById(R.id.log_text);
         addNetworksButton = findViewById(R.id.add_networks_button);
 
+        securityLabels = getResources().getStringArray(R.array.security_labels);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, SECURITY_LABELS);
+                this, android.R.layout.simple_spinner_item, securityLabels);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         securitySpinner.setAdapter(adapter);
 
@@ -98,7 +97,7 @@ public class MainActivity extends Activity {
         ssidInput.setText(Prefs.getSsid(this));
         passwordInput.setText(Prefs.getPassword(this));
         int security = Prefs.getSecurity(this);
-        if (security < 0 || security >= SECURITY_LABELS.length) {
+        if (security < 0 || security >= securityLabels.length) {
             security = Prefs.SECURITY_WPA2;
         }
         securitySpinner.setSelection(security);
@@ -133,7 +132,7 @@ public class MainActivity extends Activity {
         }
         if (connectNow) {
             if (!hasFineLocationPermission()) {
-                toast("Grant location permission, then tap Save & connect again.");
+                toast(getString(R.string.toast_grant_location));
                 requestRuntimePermissions();
             } else {
                 WifiConnector.connect(this, "Manual");
@@ -150,25 +149,25 @@ public class MainActivity extends Activity {
     private boolean saveSettings(boolean promptAccessibility) {
         String ssid = ssidInput.getText().toString().trim();
         if (ssid.length() == 0) {
-            toast("Enter the Wi-Fi network name (SSID) first.");
+            toast(getString(R.string.toast_enter_ssid));
             ssidInput.requestFocus();
             return false;
         }
 
         int security = securitySpinner.getSelectedItemPosition();
-        if (security < 0 || security >= SECURITY_LABELS.length) {
+        if (security < 0 || security >= securityLabels.length) {
             security = Prefs.SECURITY_WPA2;
         }
         String password = passwordInput.getText().toString();
 
         if (security != Prefs.SECURITY_OPEN
                 && (password.length() < 8 || password.length() > 63)) {
-            toast("WPA/WPA2/WPA3 passwords must be 8-63 characters long.");
+            toast(getString(R.string.toast_password_length));
             passwordInput.requestFocus();
             return false;
         }
         if (security == Prefs.SECURITY_WPA3 && Build.VERSION.SDK_INT < 29) {
-            toast("WPA3 requires Android 10 or newer. Choose WPA/WPA2 on this device.");
+            toast(getString(R.string.toast_wpa3_android10));
             return false;
         }
 
@@ -201,16 +200,16 @@ public class MainActivity extends Activity {
         }
         Prefs prefs = Prefs.get(this);
         boolean opened = WifiConnector.launchAddNetworksDialog(this, prefs);
-        toast(opened
-                ? "Approve the Wi-Fi network in the Android dialog."
-                : "Could not open Android's Wi-Fi dialog on this device.");
+        toast(getString(opened
+                ? R.string.toast_approve_network
+                : R.string.toast_could_not_open_wifi_dialog));
         refreshStatus();
         refreshLog();
     }
 
     private void requestRuntimePermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            toast("Permissions are granted at install time on this Android version.");
+            toast(getString(R.string.toast_permissions_install_time));
             return;
         }
         List<String> permissions = new ArrayList<>();
@@ -225,7 +224,7 @@ public class MainActivity extends Activity {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS);
         }
         if (permissions.isEmpty()) {
-            toast("Location and notification permissions are already granted.");
+            toast(getString(R.string.toast_permissions_already_granted));
             return;
         }
         requestPermissions(permissions.toArray(new String[0]), REQUEST_PERMISSIONS);
@@ -243,7 +242,7 @@ public class MainActivity extends Activity {
                 == PackageManager.PERMISSION_GRANTED;
         AppLog.log(this, "Permission result: location=" + (fineGranted ? "granted" : "denied"));
         if (!fineGranted) {
-            toast("Location permission is required to scan for and connect to Wi-Fi networks.");
+            toast(getString(R.string.toast_location_required));
         }
         refreshStatus();
         refreshLog();
@@ -298,31 +297,51 @@ public class MainActivity extends Activity {
         boolean spotifyEffective = prefs.isSpotifyTriggerEnabled() && accessibility;
         String connected = WifiConnector.getConnectedSsid(this);
 
+        int security = prefs.getSecurity();
+        if (security < 0 || security >= securityLabels.length) {
+            security = Prefs.SECURITY_WPA2;
+        }
+
+        StringBuilder spotify = new StringBuilder(spotifyEffective
+                ? getString(R.string.status_on) : getString(R.string.status_off));
+        if (prefs.isSpotifyTriggerEnabled()) {
+            if (!accessibility) {
+                spotify.append(' ').append(getString(R.string.status_enable_accessibility));
+            }
+        } else {
+            spotify.append(' ').append(getString(R.string.status_disabled_in_app));
+        }
+
         StringBuilder sb = new StringBuilder();
-        sb.append("Network: ")
-                .append(prefs.isConfigured() ? prefs.getSsid() : "not configured")
+        sb.append(getString(R.string.status_network,
+                        prefs.isConfigured() ? prefs.getSsid()
+                                : getString(R.string.status_not_configured)))
                 .append('\n');
-        sb.append("Security: ").append(Prefs.securityLabel(prefs.getSecurity())).append('\n');
-        sb.append("Spotify detection: ")
-                .append(spotifyEffective ? "ON" : "OFF")
-                .append(prefs.isSpotifyTriggerEnabled()
-                        ? (accessibility ? "" : " (enable the accessibility service)")
-                        : " (disabled in app)")
+        sb.append(getString(R.string.status_security, securityLabels[security])).append('\n');
+        sb.append(getString(R.string.status_spotify_detection, spotify.toString())).append('\n');
+        sb.append(getString(R.string.status_always_connect,
+                        prefs.isFallbackEnabled()
+                                ? getString(R.string.status_on)
+                                : getString(R.string.status_off)))
                 .append('\n');
-        sb.append("Always-connect: ")
-                .append(prefs.isFallbackEnabled() ? "ON" : "OFF")
+        sb.append(getString(R.string.status_wifi_radio,
+                        WifiConnector.isWifiEnabled(this)
+                                ? getString(R.string.status_lower_on)
+                                : getString(R.string.status_lower_off)))
                 .append('\n');
-        sb.append("Wi-Fi radio: ")
-                .append(WifiConnector.isWifiEnabled(this) ? "on" : "off")
+        sb.append(getString(R.string.status_connected_to,
+                        connected == null
+                                ? getString(R.string.status_not_connected) : connected))
                 .append('\n');
-        sb.append("Connected to: ")
-                .append(connected == null ? "not connected" : connected)
+        sb.append(getString(R.string.status_location_permission,
+                        hasFineLocationPermission()
+                                ? getString(R.string.status_granted)
+                                : getString(R.string.status_missing)))
                 .append('\n');
-        sb.append("Location permission: ")
-                .append(hasFineLocationPermission() ? "granted" : "missing")
-                .append('\n');
-        sb.append("Location services: ")
-                .append(isLocationEnabled() ? "on" : "off");
+        sb.append(getString(R.string.status_location_services,
+                        isLocationEnabled()
+                                ? getString(R.string.status_lower_on)
+                                : getString(R.string.status_lower_off)));
         statusText.setText(sb.toString());
     }
 
@@ -333,14 +352,11 @@ public class MainActivity extends Activity {
 
     private void showAccessibilityDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Enable Spotify detection")
-                .setMessage("Android needs an accessibility service to know when Spotify "
-                        + "opens. Enable \"Spotify Wi-Fi Connector\" under Settings > "
-                        + "Accessibility. The service only checks which app is in the "
-                        + "foreground; it never reads screen content.")
-                .setPositiveButton("Open accessibility settings",
+                .setTitle(R.string.accessibility_dialog_title)
+                .setMessage(R.string.accessibility_dialog_message)
+                .setPositiveButton(R.string.accessibility_dialog_positive,
                         (dialog, which) -> openSettings(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                .setNegativeButton("Later", null)
+                .setNegativeButton(R.string.accessibility_dialog_negative, null)
                 .show();
     }
 
@@ -348,7 +364,7 @@ public class MainActivity extends Activity {
         try {
             startActivity(new Intent(action));
         } catch (Exception e) {
-            toast("Could not open Android settings on this device.");
+            toast(getString(R.string.toast_could_not_open_settings));
             AppLog.log(this, "Could not open settings action " + action + ": "
                     + e.getClass().getSimpleName());
         }
@@ -366,7 +382,7 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             AppLog.log(this, "Could not start always-connect watcher: "
                     + e.getClass().getSimpleName());
-            toast("Could not start the always-connect watcher. Check notification permission.");
+            toast(getString(R.string.toast_could_not_start_watcher));
         }
     }
 

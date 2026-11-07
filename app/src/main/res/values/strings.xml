@@ -30,4 +30,46 @@
     <string name="section_log">Log</string>
     <string name="no_events">No events yet.</string>
     <string name="footer_note">Spotify detection uses Android\'s Accessibility Service. It only looks at which app is in the foreground; it never reads screen content. On Android 10+ some phones require you to approve the Wi-Fi network once in the system prompt.</string>
+
+    <string-array name="security_labels">
+        <item>WPA/WPA2</item>
+        <item>Open</item>
+        <item>WPA3 (Android 10+)</item>
+    </string-array>
+
+    <string name="status_network">Network: %1$s</string>
+    <string name="status_not_configured">not configured</string>
+    <string name="status_security">Security: %1$s</string>
+    <string name="status_spotify_detection">Spotify detection: %1$s</string>
+    <string name="status_on">ON</string>
+    <string name="status_off">OFF</string>
+    <string name="status_enable_accessibility">(enable the accessibility service)</string>
+    <string name="status_disabled_in_app">(disabled in app)</string>
+    <string name="status_always_connect">Always-connect: %1$s</string>
+    <string name="status_wifi_radio">Wi-Fi radio: %1$s</string>
+    <string name="status_lower_on">on</string>
+    <string name="status_lower_off">off</string>
+    <string name="status_connected_to">Connected to: %1$s</string>
+    <string name="status_not_connected">not connected</string>
+    <string name="status_location_permission">Location permission: %1$s</string>
+    <string name="status_granted">granted</string>
+    <string name="status_missing">missing</string>
+    <string name="status_location_services">Location services: %1$s</string>
+
+    <string name="toast_grant_location">Grant location permission, then tap Save &amp; connect again.</string>
+    <string name="toast_enter_ssid">Enter the Wi-Fi network name (SSID) first.</string>
+    <string name="toast_password_length">WPA/WPA2/WPA3 passwords must be 8-63 characters long.</string>
+    <string name="toast_wpa3_android10">WPA3 requires Android 10 or newer. Choose WPA/WPA2 on this device.</string>
+    <string name="toast_approve_network">Approve the Wi-Fi network in the Android dialog.</string>
+    <string name="toast_could_not_open_wifi_dialog">Could not open Android\'s Wi-Fi dialog on this device.</string>
+    <string name="toast_permissions_install_time">Permissions are granted at install time on this Android version.</string>
+    <string name="toast_permissions_already_granted">Location and notification permissions are already granted.</string>
+    <string name="toast_location_required">Location permission is required to scan for and connect to Wi-Fi networks.</string>
+    <string name="toast_could_not_open_settings">Could not open Android settings on this device.</string>
+    <string name="toast_could_not_start_watcher">Could not start the always-connect watcher. Check notification permission.</string>
+
+    <string name="accessibility_dialog_title">Enable Spotify detection</string>
+    <string name="accessibility_dialog_message">Android needs an accessibility service to know when Spotify opens. Enable \"Spotify Wi-Fi Connector\" under Settings &gt; Accessibility. The service only checks which app is in the foreground; it never reads screen content.</string>
+    <string name="accessibility_dialog_positive">Open accessibility settings</string>
+    <string name="accessibility_dialog_negative">Later</string>
 </resources>
