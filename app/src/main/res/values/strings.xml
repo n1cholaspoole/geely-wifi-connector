@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Spotify Wi-Fi Connector</string>
-    <string name="accessibility_service_label">Spotify Wi-Fi Connector</string>
-    <string name="accessibility_service_description">Watches for the Spotify app coming to the foreground and connects the phone to your configured Wi-Fi network. This service does not read screen content.</string>
+    <string name="app_name">Wi-Fi Connector</string>
+    <string name="accessibility_service_label">Wi-Fi Connector</string>
+    <string name="accessibility_service_description">Watches for the selected app coming to the foreground and connects the phone to your configured Wi-Fi network. This service does not read screen content.</string>
     <string name="notification_channel_name">Wi-Fi auto-connect</string>
     <string name="notification_channel_description">Keeps the always-on Wi-Fi watcher running.</string>
     <string name="notification_title">Wi-Fi auto-connect is active</string>
@@ -10,18 +10,21 @@
     <string name="notification_text_no_network">Open the app and configure a Wi-Fi network</string>
     <string name="notification_text_permission">Location permission is missing; open the app</string>
 
-    <string name="intro">Connects this phone to one Wi-Fi network when Spotify is opened. An optional fallback watches for the network and connects whenever it is in range.</string>
+    <string name="intro">Connects this phone to one Wi-Fi network when the selected app is opened. An optional fallback watches for the network and connects whenever it is in range.</string>
     <string name="section_wifi_network">Wi-Fi network</string>
     <string name="hint_ssid">Network name (SSID)</string>
     <string name="hint_password">Wi-Fi password</string>
     <string name="section_security">Security</string>
     <string name="hidden_network">Hidden network</string>
-    <string name="spotify_trigger">Connect when Spotify opens</string>
+    <string name="section_trigger_app">Trigger app</string>
+    <string name="selected_app">%1$s (%2$s)</string>
+    <string name="select_app">Choose app</string>
+    <string name="trigger_app_checkbox">Connect when the selected app opens</string>
     <string name="fallback_trigger">Always connect when the network is in range</string>
     <string name="save_and_connect">Save &amp; connect</string>
     <string name="save_only">Save settings only</string>
     <string name="grant_permissions">Grant location / notification permissions</string>
-    <string name="enable_spotify_detection">Enable Spotify detection</string>
+    <string name="enable_app_detection">Enable app detection</string>
     <string name="open_wifi_settings">Open Wi-Fi settings</string>
     <string name="open_location_settings">Open location settings</string>
     <string name="add_networks_dialog">Add network via Android dialog (Android 11+)</string>
@@ -29,7 +32,7 @@
     <string name="section_status">Status</string>
     <string name="section_log">Log</string>
     <string name="no_events">No events yet.</string>
-    <string name="footer_note">Spotify detection uses Android\'s Accessibility Service. It only looks at which app is in the foreground; it never reads screen content. On Android 10+ some phones require you to approve the Wi-Fi network once in the system prompt.</string>
+    <string name="footer_note">App detection uses Android\'s Accessibility Service. It only looks at which app is in the foreground; it never reads screen content. On Android 10+ some phones require you to approve the Wi-Fi network once in the system prompt.</string>
 
     <string-array name="security_labels">
         <item>WPA/WPA2</item>
@@ -40,7 +43,7 @@
     <string name="status_network">Network: %1$s</string>
     <string name="status_not_configured">not configured</string>
     <string name="status_security">Security: %1$s</string>
-    <string name="status_spotify_detection">Spotify detection: %1$s</string>
+    <string name="status_trigger_detection">App detection: %1$s</string>
     <string name="status_on">ON</string>
     <string name="status_off">OFF</string>
     <string name="status_enable_accessibility">(enable the accessibility service)</string>
@@ -67,9 +70,10 @@
     <string name="toast_location_required">Location permission is required to scan for and connect to Wi-Fi networks.</string>
     <string name="toast_could_not_open_settings">Could not open Android settings on this device.</string>
     <string name="toast_could_not_start_watcher">Could not start the always-connect watcher. Check notification permission.</string>
+    <string name="toast_no_apps">No launchable apps were found on this device.</string>
 
-    <string name="accessibility_dialog_title">Enable Spotify detection</string>
-    <string name="accessibility_dialog_message">Android needs an accessibility service to know when Spotify opens. Enable \"Spotify Wi-Fi Connector\" under Settings &gt; Accessibility. The service only checks which app is in the foreground; it never reads screen content.</string>
+    <string name="accessibility_dialog_title">Enable app detection</string>
+    <string name="accessibility_dialog_message">Android needs an accessibility service to know when the selected app opens. Enable \"Wi-Fi Connector\" under Settings &gt; Accessibility. The service only checks which app is in the foreground; it never reads screen content.</string>
     <string name="accessibility_dialog_positive">Open accessibility settings</string>
-    <string name="accessibility_dialog_negative">Later</string>
+    <string name="accessibility_dialog_negative">Cancel</string>
 </resources>

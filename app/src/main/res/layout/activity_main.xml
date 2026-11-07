@@ -71,13 +71,29 @@
             android:layout_marginTop="4dp"
             android:text="@string/hidden_network" />
 
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/section_trigger_app" />
+
+        <TextView
+            android:id="@+id/target_app_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/select_app_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_app" />
+
         <CheckBox
             android:id="@+id/spotify_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:checked="true"
-            android:text="@string/spotify_trigger" />
+            android:text="@string/trigger_app_checkbox" />
 
         <CheckBox
             android:id="@+id/fallback_check"
@@ -109,7 +125,7 @@
             android:id="@+id/accessibility_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enable_spotify_detection" />
+            android:text="@string/enable_app_detection" />
 
         <Button
             android:id="@+id/wifi_settings_button"

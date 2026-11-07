@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="accessibility_service_description">Отслеживает выход приложения Spotify на передний план и подключает телефон к настроенной сети Wi-Fi. Эта служба не считывает содержимое экрана.</string>
+    <string name="accessibility_service_description">Отслеживает выход выбранного приложения на передний план и подключает телефон к настроенной сети Wi-Fi. Эта служба не считывает содержимое экрана.</string>
     <string name="notification_channel_name">Автоподключение Wi-Fi</string>
     <string name="notification_channel_description">Поддерживает работу постоянного наблюдателя Wi-Fi.</string>
     <string name="notification_title">Автоподключение Wi-Fi активно</string>
@@ -8,18 +8,21 @@
     <string name="notification_text_no_network">Откройте приложение и настройте сеть Wi-Fi.</string>
     <string name="notification_text_permission">Нет разрешения на определение местоположения; откройте приложение</string>
 
-    <string name="intro">Подключает этот телефон к одной сети Wi-Fi при открытии Spotify. Дополнительный резервный режим следит за сетью и подключается, когда она в зоне действия.</string>
+    <string name="intro">Подключает этот телефон к одной сети Wi-Fi при открытии выбранного приложения. Дополнительный резервный режим следит за сетью и подключается, когда она в зоне действия.</string>
     <string name="section_wifi_network">Сеть Wi-Fi</string>
     <string name="hint_ssid">Имя сети (SSID)</string>
     <string name="hint_password">Пароль Wi-Fi</string>
     <string name="section_security">Безопасность</string>
     <string name="hidden_network">Скрытая сеть</string>
-    <string name="spotify_trigger">Подключаться при открытии Spotify</string>
+    <string name="section_trigger_app">Приложение-триггер</string>
+    <string name="selected_app">%1$s (%2$s)</string>
+    <string name="select_app">Выбрать приложение</string>
+    <string name="trigger_app_checkbox">Подключаться при открытии выбранного приложения</string>
     <string name="fallback_trigger">Всегда подключаться, когда сеть в зоне действия</string>
     <string name="save_and_connect">Сохранить и подключить</string>
     <string name="save_only">Сохранить только настройки</string>
     <string name="grant_permissions">Предоставить разрешения на местоположение и уведомления</string>
-    <string name="enable_spotify_detection">Включить обнаружение Spotify</string>
+    <string name="enable_app_detection">Включить обнаружение приложения</string>
     <string name="open_wifi_settings">Открыть настройки Wi-Fi</string>
     <string name="open_location_settings">Открыть настройки местоположения</string>
     <string name="add_networks_dialog">Добавить сеть через диалог Android (Android 11+)</string>
@@ -27,7 +30,7 @@
     <string name="section_status">Статус</string>
     <string name="section_log">Журнал</string>
     <string name="no_events">Событий пока нет.</string>
-    <string name="footer_note">Для обнаружения Spotify используется служба доступности Android. Она смотрит только на то, какое приложение находится на переднем плане, и никогда не читает содержимое экрана. На телефонах с Android 10 и новее может потребоваться один раз подтвердить сеть Wi-Fi в системном запросе.</string>
+    <string name="footer_note">Для обнаружения приложений используется служба доступности Android. Она смотрит только на то, какое приложение находится на переднем плане, и никогда не читает содержимое экрана. На телефонах с Android 10 и новее может потребоваться один раз подтвердить сеть Wi-Fi в системном запросе.</string>
 
     <string-array name="security_labels">
         <item>WPA/WPA2</item>
@@ -38,7 +41,7 @@
     <string name="status_network">Сеть: %1$s</string>
     <string name="status_not_configured">не настроено</string>
     <string name="status_security">Безопасность: %1$s</string>
-    <string name="status_spotify_detection">Обнаружение Spotify: %1$s</string>
+    <string name="status_trigger_detection">Обнаружение приложения: %1$s</string>
     <string name="status_on">ВКЛ</string>
     <string name="status_off">ВЫКЛ</string>
     <string name="status_enable_accessibility">(включите службу доступности)</string>
@@ -65,9 +68,10 @@
     <string name="toast_location_required">Для сканирования сетей Wi-Fi и подключения к ним требуется разрешение на определение местоположения.</string>
     <string name="toast_could_not_open_settings">Не удалось открыть настройки Android на этом устройстве.</string>
     <string name="toast_could_not_start_watcher">Не удалось запустить наблюдатель постоянного подключения. Проверьте разрешение на уведомления.</string>
+    <string name="toast_no_apps">На этом устройстве не найдено запускаемых приложений.</string>
 
-    <string name="accessibility_dialog_title">Включить обнаружение Spotify</string>
-    <string name="accessibility_dialog_message">Android требуется служба доступности, чтобы узнавать, когда открывается Spotify. Включите «Spotify Wi-Fi Connector» в разделе «Настройки» &gt; «Доступность». Служба только проверяет, какое приложение находится на переднем плане, и никогда не читает содержимое экрана.</string>
+    <string name="accessibility_dialog_title">Включить обнаружение приложения</string>
+    <string name="accessibility_dialog_message">Android требуется служба доступности, чтобы узнавать, когда открывается выбранное приложение. Включите «Wi-Fi Connector» в разделе «Настройки» &gt; «Доступность». Служба только проверяет, какое приложение находится на переднем плане, и никогда не читает содержимое экрана.</string>
     <string name="accessibility_dialog_positive">Открыть настройки доступности</string>
-    <string name="accessibility_dialog_negative">Позже</string>
+    <string name="accessibility_dialog_negative">Отмена</string>
 </resources>

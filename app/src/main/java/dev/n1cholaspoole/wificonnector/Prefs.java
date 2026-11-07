@@ -13,6 +13,8 @@ public final class Prefs {
     public static final int SECURITY_OPEN = 1;
     public static final int SECURITY_WPA3 = 2;
 
+    public static final String DEFAULT_TRIGGER_PACKAGE = "com.spotify.music";
+
     private static final String FILE = "wifi_connector";
     private static final String KEY_SSID = "ssid";
     private static final String KEY_PASSWORD = "password";
@@ -20,6 +22,7 @@ public final class Prefs {
     private static final String KEY_HIDDEN = "hidden";
     private static final String KEY_SPOTIFY_TRIGGER = "spotify_trigger";
     private static final String KEY_FALLBACK = "fallback";
+    private static final String KEY_TARGET_PACKAGE = "target_package";
 
     private final Context context;
 
@@ -70,7 +73,17 @@ public final class Prefs {
     }
 
     public static String getPassword(Context context) {
-        return sp(context).getString(KEY_PASSWORD, "");
+        String stored = SecretStore.getPassword(context);
+        if (stored != null) {
+            return stored;
+        }
+        String legacy = sp(context).getString(KEY_PASSWORD, "");
+        if (legacy.length() > 0) {
+            // Move the old plain-text value into the encrypted secrets file.
+            SecretStore.setPassword(context, legacy);
+            sp(context).edit().remove(KEY_PASSWORD).apply();
+        }
+        return legacy;
     }
 
     public static int getSecurity(Context context) {
@@ -93,15 +106,24 @@ public final class Prefs {
         return getSsid(context).length() > 0;
     }
 
+    public static String getTargetPackage(Context context) {
+        return sp(context).getString(KEY_TARGET_PACKAGE, DEFAULT_TRIGGER_PACKAGE);
+    }
+
+    public static void setTargetPackage(Context context, String packageName) {
+        sp(context).edit().putString(KEY_TARGET_PACKAGE, packageName).apply();
+    }
+
     public static void save(Context context, String ssid, String password, int security,
                             boolean hidden, boolean spotifyTrigger, boolean fallback) {
+        SecretStore.setPassword(context, password);
         sp(context).edit()
                 .putString(KEY_SSID, ssid)
-                .putString(KEY_PASSWORD, password)
                 .putInt(KEY_SECURITY, security)
                 .putBoolean(KEY_HIDDEN, hidden)
                 .putBoolean(KEY_SPOTIFY_TRIGGER, spotifyTrigger)
                 .putBoolean(KEY_FALLBACK, fallback)
+                .remove(KEY_PASSWORD)
                 .apply();
     }
 

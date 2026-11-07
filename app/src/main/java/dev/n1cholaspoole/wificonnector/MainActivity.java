@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends Activity {
 
@@ -40,6 +45,8 @@ public class MainActivity extends Activity {
     private CheckBox fallbackCheck;
     private TextView statusText;
     private TextView logText;
+    private TextView targetAppText;
+    private Button selectAppButton;
     private Button addNetworksButton;
 
     private BroadcastReceiver logReceiver;
@@ -58,6 +65,8 @@ public class MainActivity extends Activity {
         fallbackCheck = findViewById(R.id.fallback_check);
         statusText = findViewById(R.id.status_text);
         logText = findViewById(R.id.log_text);
+        targetAppText = findViewById(R.id.target_app_text);
+        selectAppButton = findViewById(R.id.select_app_button);
         addNetworksButton = findViewById(R.id.add_networks_button);
 
         securityLabels = getResources().getStringArray(R.array.security_labels);
@@ -83,6 +92,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        refreshTargetApp();
         refreshStatus();
         refreshLog();
     }
@@ -124,6 +134,7 @@ public class MainActivity extends Activity {
             refreshLog();
         });
         addNetworksButton.setOnClickListener(v -> addViaSystemDialog());
+        selectAppButton.setOnClickListener(v -> showAppPicker());
     }
 
     private void saveAndConnect(boolean connectNow) {
@@ -318,7 +329,7 @@ public class MainActivity extends Activity {
                                 : getString(R.string.status_not_configured)))
                 .append('\n');
         sb.append(getString(R.string.status_security, securityLabels[security])).append('\n');
-        sb.append(getString(R.string.status_spotify_detection, spotify.toString())).append('\n');
+        sb.append(getString(R.string.status_trigger_detection, spotify.toString())).append('\n');
         sb.append(getString(R.string.status_always_connect,
                         prefs.isFallbackEnabled()
                                 ? getString(R.string.status_on)
@@ -348,6 +359,68 @@ public class MainActivity extends Activity {
     private void refreshLog() {
         String log = AppLog.read(this);
         logText.setText(log.length() == 0 ? getString(R.string.no_events) : log);
+    }
+
+    private void refreshTargetApp() {
+        String packageName = Prefs.getTargetPackage(this);
+        targetAppText.setText(getString(
+                R.string.selected_app, resolveAppLabel(packageName), packageName));
+    }
+
+    private String resolveAppLabel(String packageName) {
+        try {
+            PackageManager pm = getPackageManager();
+            return pm.getApplicationLabel(
+                    pm.getApplicationInfo(packageName, 0)).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            return packageName;
+        }
+    }
+
+    private void showAppPicker() {
+        PackageManager pm = getPackageManager();
+        Intent launcher = new Intent(Intent.ACTION_MAIN);
+        launcher.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resolved = pm.queryIntentActivities(launcher, 0);
+        Collections.sort(resolved, new Comparator<ResolveInfo>() {
+            @Override
+            public int compare(ResolveInfo a, ResolveInfo b) {
+                return a.loadLabel(pm).toString()
+                        .compareToIgnoreCase(b.loadLabel(pm).toString());
+            }
+        });
+
+        Set<String> seen = new HashSet<>();
+        List<String> items = new ArrayList<>();
+        final List<String> packages = new ArrayList<>();
+        for (ResolveInfo info : resolved) {
+            if (info.activityInfo == null) {
+                continue;
+            }
+            String pkg = info.activityInfo.packageName;
+            if (!seen.add(pkg)) {
+                continue;
+            }
+            packages.add(pkg);
+            items.add(info.loadLabel(pm) + " (" + pkg + ")");
+        }
+
+        if (packages.isEmpty()) {
+            toast(getString(R.string.toast_no_apps));
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.select_app)
+                .setItems(items.toArray(new String[0]), (dialog, which) -> {
+                    String pkg = packages.get(which);
+                    Prefs.setTargetPackage(this, pkg);
+                    AppLog.log(this, "Trigger app set to " + pkg);
+                    refreshTargetApp();
+                    refreshStatus();
+                })
+                .setNegativeButton(R.string.accessibility_dialog_negative, null)
+                .show();
     }
 
     private void showAccessibilityDialog() {

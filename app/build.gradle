@@ -13,8 +13,8 @@ android {
         // legacy WifiManager.addNetwork()/setWifiEnabled() APIs. The app falls
         // back to WifiNetworkSuggestion on devices where the legacy path fails.
         targetSdk 28
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
     }
 
     buildTypes {
