@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF8F9FA"
+    android:fillViewport="true"
+    tools:ignore="Overdraw">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="#0B6E32"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/intro"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/section_wifi_network" />
+
+        <EditText
+            android:id="@+id/ssid_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_ssid"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            tools:targetApi="o" />
+
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/section_security" />
+
+        <Spinner
+            android:id="@+id/security_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
+        <CheckBox
+            android:id="@+id/hidden_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/hidden_network" />
+
+        <CheckBox
+            android:id="@+id/spotify_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:checked="true"
+            android:text="@string/spotify_trigger" />
+
+        <CheckBox
+            android:id="@+id/fallback_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fallback_trigger" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/save_and_connect" />
+
+        <Button
+            android:id="@+id/save_only_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_only" />
+
+        <Button
+            android:id="@+id/permissions_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/grant_permissions" />
+
+        <Button
+            android:id="@+id/accessibility_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_spotify_detection" />
+
+        <Button
+            android:id="@+id/wifi_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_wifi_settings" />
+
+        <Button
+            android:id="@+id/location_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_location_settings" />
+
+        <Button
+            android:id="@+id/add_networks_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_networks_dialog"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/clear_log_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/clear_log" />
+
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/section_status" />
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF1F3F4"
+            android:padding="12dp"
+            android:textIsSelectable="true"
+            android:textSize="14sp" />
+
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/section_log" />
+
+        <TextView
+            android:id="@+id/log_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF1F3F4"
+            android:fontFamily="monospace"
+            android:minHeight="120dp"
+            android:padding="12dp"
+            android:textIsSelectable="true"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/footer_note"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</ScrollView>

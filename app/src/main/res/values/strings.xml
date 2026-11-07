@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Spotify Wi-Fi Connector</string>
+    <string name="accessibility_service_label">Spotify Wi-Fi Connector</string>
+    <string name="accessibility_service_description">Watches for the Spotify app coming to the foreground and connects the phone to your configured Wi-Fi network. This service does not read screen content.</string>
+    <string name="notification_channel_name">Wi-Fi auto-connect</string>
+    <string name="notification_channel_description">Keeps the always-on Wi-Fi watcher running.</string>
+    <string name="notification_title">Wi-Fi auto-connect is active</string>
+    <string name="notification_text">Watching for %1$s</string>
+    <string name="notification_text_no_network">Open the app and configure a Wi-Fi network</string>
+    <string name="notification_text_permission">Location permission is missing; open the app</string>
+
+    <string name="intro">Connects this phone to one Wi-Fi network when Spotify is opened. An optional fallback watches for the network and connects whenever it is in range.</string>
+    <string name="section_wifi_network">Wi-Fi network</string>
+    <string name="hint_ssid">Network name (SSID)</string>
+    <string name="hint_password">Wi-Fi password</string>
+    <string name="section_security">Security</string>
+    <string name="hidden_network">Hidden network</string>
+    <string name="spotify_trigger">Connect when Spotify opens</string>
+    <string name="fallback_trigger">Always connect when the network is in range</string>
+    <string name="save_and_connect">Save &amp; connect</string>
+    <string name="save_only">Save settings only</string>
+    <string name="grant_permissions">Grant location / notification permissions</string>
+    <string name="enable_spotify_detection">Enable Spotify detection</string>
+    <string name="open_wifi_settings">Open Wi-Fi settings</string>
+    <string name="open_location_settings">Open location settings</string>
+    <string name="add_networks_dialog">Add network via Android dialog (Android 11+)</string>
+    <string name="clear_log">Clear log</string>
+    <string name="section_status">Status</string>
+    <string name="section_log">Log</string>
+    <string name="no_events">No events yet.</string>
+    <string name="footer_note">Spotify detection uses Android\'s Accessibility Service. It only looks at which app is in the foreground; it never reads screen content. On Android 10+ some phones require you to approve the Wi-Fi network once in the system prompt.</string>
+</resources>
